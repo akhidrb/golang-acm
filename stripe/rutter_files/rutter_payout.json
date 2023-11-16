@@ -1,0 +1,41 @@
+{
+  "id": "00000000-0000-0000-0000-000000000000",
+  "gateway_account_id": "123456789",
+  "arrival_at": "2023-01-02T02:34:56.000Z",
+  "amount": 12.34,
+  "gateway": "bank_account",
+  "iso_currency_code": "USD",
+  "schedule": "manual",
+  "status": "paid",
+  "type": "bank_account, card, fpx, unknown",
+  "method": "standard",
+  "destination": {
+    "destination_id": "123456789",
+    "account_number_last_digits": "1234",
+    "bank_name": "Wells Fargo",
+    "brand": "Wells Fargo",
+    "last_four": "1234",
+    "routing_number": "123456789"
+  },
+  "transactions": [
+    {
+      "id": "00000000-0000-0000-0000-000000000000",
+      "order_id": "00000000-0000-0000-0000-000000000000",
+      "payment_method_type": "cash, card, other",
+      "status": "success, faliure, pending, cancelled, refunded",
+      "type": "sale, refund, void, payout, fee, or other",
+      "amount": 12.34,
+      "gateway": "bank_account",
+      "gateway_data": {
+        "platform_type": "bank",
+        "amount": 12.34
+      },
+      "iso_currency_code": "USD",
+      "platform_type": "bank",
+      "created_at": "2023-01-02T02:34:56.000Z",
+      "updated_at": "2023-01-02T02:34:56.000Z"
+    }
+  ],
+  "created_at": "2023-01-02T02:34:56.000Z",
+  "updated_at": "2023-01-02T02:34:56.000Z"
+}
