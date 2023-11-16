@@ -7,12 +7,21 @@ import (
 	"github.com/stripe/stripe-go/v76/balancetransaction"
 	"github.com/stripe/stripe-go/v76/charge"
 	"github.com/stripe/stripe-go/v76/customer"
+	"github.com/stripe/stripe-go/v76/product"
 	"github.com/stripe/stripe-go/v76/subscription"
 )
 
 func main() {
-	stripe.Key = "rk_test_51OChE7B8LjpwaxcmiBwCaRzueMBJJEFvZsvRYa8o5CAYRfwrAwio2O0kSSKX8YcpL4WsxHuUnpRk5htNNkyJK86q00d9WT2px1"
-	getBalanceTransactions()
+	//stripe.Key = "rk_test_51OChE7B8LjpwaxcmiBwCaRzueMBJJEFvZsvRYa8o5CAYRfwrAwio2O0kSSKX8YcpL4WsxHuUnpRk5htNNkyJK86q00d9WT2px1"
+	stripe.Key = "sk_test_4eC39HqLyjWDarjtT1zdp7dc"
+	getProducts()
+}
+
+func getProducts() {
+	params := &stripe.ProductListParams{}
+	list := product.List(params)
+	data, _ := json.Marshal(list)
+	fmt.Println(string(data))
 }
 
 func getSubscriptions() {
