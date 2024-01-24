@@ -3,12 +3,16 @@ package main
 import "fmt"
 
 func minSubArrayLen(target int, nums []int) int {
-	sum, mini, i, j := 0, 100000, 0, 0
+	sum, mini, i, j := 0, 0, 0, 0
 	n := len(nums)
 	for i < n && j < n {
 		sum += nums[j]
 		for sum >= target {
-			mini = min(mini, j-i+1)
+			if mini == 0 {
+				mini = j - i + 1
+			} else {
+				mini = min(mini, j-i+1)
+			}
 			sum -= nums[i]
 			i++
 		}
