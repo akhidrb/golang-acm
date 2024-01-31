@@ -5,36 +5,16 @@ import (
 	"testing"
 )
 
-func Test_RandomizedTest(t *testing.T) {
+func Test_HIndex(t *testing.T) {
 	t.Run("1", func(t *testing.T) {
-		actions := []string{"RandomizedSet", "insert", "remove", "insert", "getRandom", "remove", "insert", "getRandom"}
-		nums := [][]int{{}, {1}, {2}, {2}, {}, {1}, {2}, {}}
-		res := handleActions(actions, nums)
-		expectedRes := []interface{}{nil, true, false, true, 2, true, false, 2}
-		assert.Equal(t, expectedRes, res)
+		nums := []int{3, 0, 6, 1, 5}
+		res := hIndex(nums)
+		assert.Equal(t, 3, res)
 	})
-}
 
-func handleActions(actions []string, nums [][]int) []interface{} {
-	resList := make([]interface{}, 0)
-	var obj RandomizedSet
-	for i, action := range actions {
-		var res interface{}
-		switch action {
-		case "RandomizedSet":
-			obj = Constructor()
-			break
-		case "insert":
-			res = obj.Insert(nums[i][0])
-			break
-		case "remove":
-			res = obj.Remove(nums[i][0])
-			break
-		case "getRandom":
-			res = obj.GetRandom()
-			break
-		}
-		resList = append(resList, res)
-	}
-	return resList
+	t.Run("2", func(t *testing.T) {
+		nums := []int{1, 3, 1}
+		res := hIndex(nums)
+		assert.Equal(t, 1, res)
+	})
 }
