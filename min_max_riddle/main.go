@@ -11,15 +11,17 @@ import (
 
 func riddle(arr []int64) []int64 {
 	wMax := make(map[int64]int64)
-	stk := make([][]int64, 0)
+	stk1 := make([]int64, 0)
+	stk2 := make([]int64, 0)
 	var i int64
 	n := int64(len(arr))
 	arr = append(arr, 0)
 	for i = 0; i < int64(len(arr)); i++ {
 		idx := i
-		for len(stk) > 0 && stk[len(stk)-1][0] > arr[i] {
-			val, prevIdx := stk[len(stk)-1][0], stk[len(stk)-1][1]
-			stk = stk[:len(stk)-1]
+		for len(stk1) > 0 && stk1[len(stk1)-1] > arr[i] {
+			val, prevIdx := stk1[len(stk1)-1], stk2[len(stk2)-1]
+			stk1 = stk1[:len(stk1)-1]
+			stk2 = stk2[:len(stk2)-1]
 			temp1 := i - prevIdx + 1
 			if w, ok := wMax[arr[i]]; ok {
 				if w > temp1 {
@@ -37,7 +39,8 @@ func riddle(arr []int64) []int64 {
 			wMax[val] = temp2
 			idx = prevIdx
 		}
-		stk = append(stk, [][]int64{{arr[i], idx}}...)
+		stk1 = append(stk1, arr[i])
+		stk2 = append(stk2, idx)
 	}
 	delete(wMax, 0)
 	wInv := make(map[int64]int64)
@@ -50,19 +53,15 @@ func riddle(arr []int64) []int64 {
 		wInv[value] = key
 	}
 	ll := make([]int64, n)
-	ll[0] = wInv[n]
+	ll[n-1] = wInv[n]
 	for i = n - 1; i >= 1; i-- {
-		temp := ll[n-i-1]
+		temp := ll[i]
 		if w, ok := wInv[i]; ok {
 			if w > temp {
 				temp = w
 			}
 		}
-		ll[n-i] = temp
-	}
-	var j int64
-	for i, j = 0, n-1; i < j; i, j = i+1, j-1 {
-		ll[i], ll[j] = ll[j], ll[i]
+		ll[i-1] = temp
 	}
 	return ll
 }
