@@ -3,7 +3,6 @@ package main
 import (
 	"bufio"
 	"errors"
-	"fmt"
 	"github.com/stretchr/testify/assert"
 	"io"
 	"os"
@@ -29,12 +28,15 @@ func Test(t *testing.T) {
 
 	t.Run("2", func(t *testing.T) {
 		p := readData("input_2")
-		beginTime := time.Now()
+		go func() {
+			for {
+				time.Sleep(500 * time.Millisecond)
+				assert.Fail(t, "time limit exceeded")
+				panic(errors.New("time limit exceeded"))
+			}
+		}()
 		result := poisonousPlants(p)
-		endTime := time.Now()
-		fmt.Println(endTime.Sub(beginTime).Milliseconds())
 		assert.Equal(t, int32(2), result)
-		assert.LessOrEqual(t, int64(1000), endTime.Sub(beginTime).Milliseconds())
 	})
 }
 
