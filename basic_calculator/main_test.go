@@ -41,4 +41,16 @@ func Test(t *testing.T) {
 		res := calculate(s)
 		assert.Equal(t, -1, res)
 	})
+
+	t.Run("7", func(t *testing.T) {
+		s := "2147483647"
+		res := calculate(s)
+		assert.Equal(t, 2147483647, res)
+	})
+
+	t.Run("8", func(t *testing.T) {
+		s := "- (3 + (4 + 5))"
+		res := calculate(s)
+		assert.Equal(t, -12, res)
+	})
 }

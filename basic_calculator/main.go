@@ -5,81 +5,78 @@ import (
 	"strings"
 )
 
-const (
-	digit   = "digit"
-	op      = "op"
-	bracket = "bracket"
-)
-
 func calculate(s string) int {
-	total := 0
 	st := make(Stack, 0)
-	i := len(s) - 1
-	var sb strings.Builder
+	dSt := make(Stack, 0)
+
+	i := 0
 	for i < len(s) {
-		ch := string(s[i])
-		charType := getCharType(ch)
-		if charType == op {
-			st.Push(ch)
-		} else if charType == digit {
-			for i < len(s) && charType == digit {
-				sb.WriteString(ch)
+		for i < len(s) && s[i] != ')' {
+			if _, err := strconv.Atoi(string(s[i])); err == nil {
+				var sb strings.Builder
+				isDig := true
+				for i < len(s) && isDig {
+					sb.WriteString(string(s[i]))
+					i++
+					if i < len(s) {
+						if _, err = strconv.Atoi(string(s[i])); err != nil {
+							isDig = false
+						}
+					}
+				}
+				st.Push(sb.String())
+			} else {
+				st.Push(string(s[i]))
 				i++
-				if i < len(s) {
-					ch = string(s[i])
-					charType = getCharType(ch)
+			}
+
+		}
+		for !st.IsEmpty() && st.Top() != "(" {
+			top, _ := st.Pop()
+			if _, err := strconv.Atoi(top); err == nil || top == "+" || top == "-" {
+				dSt.Push(top)
+			}
+		}
+		if st.Top() == "(" {
+			st.Pop()
+		}
+		num := 0
+		for !dSt.IsEmpty() {
+			top, _ := dSt.Pop()
+			if top == "-" {
+				val, _ := dSt.Pop()
+				if dig, err := strconv.Atoi(val); err == nil {
+					num -= dig
 				}
 			}
-			st.Push(sb.String())
-			sb.Reset()
-			continue
-		} else if charType == bracket {
-			if ch == "(" {
-				st.Push(ch)
-			} else {
-				total += handleStack(st)
+			if dig, err := strconv.Atoi(top); err == nil {
+				num += dig
 			}
 		}
+		st.Push(strconv.Itoa(num))
 		i++
 	}
-	total += handleStack(st)
-	return total
-}
-
-func handleStack(st Stack) int {
-	total := 0
 	for !st.IsEmpty() {
-		val, _ := st.Pop()
-		if val == "(" {
-			return total
+		top, _ := st.Pop()
+		if _, err := strconv.Atoi(top); err == nil || top == "+" || top == "-" {
+			dSt.Push(top)
 		}
-		if val == "-" {
-			numV, exists := st.Pop()
-			var num int
-			if exists {
-				num, _ = strconv.Atoi(numV)
+	}
+	total := 0
+	for !dSt.IsEmpty() {
+		top, _ := dSt.Pop()
+		if top == "-" {
+			val, _ := dSt.Pop()
+			if dig, err := strconv.Atoi(val); err == nil {
+				total -= dig
 			}
-			total = num - total
 		}
-		if num, err := strconv.Atoi(val); err == nil {
-			total += num
+		if dig, err := strconv.Atoi(top); err == nil {
+			total += dig
 		}
 	}
-	return total
-}
 
-func getCharType(ch string) string {
-	_, err := strconv.Atoi(ch)
-	if err == nil {
-		return digit
-	}
-	switch ch {
-	case "(", ")":
-		return bracket
-	case "+", "-":
-		return op
-	}
-	return ""
+	return total
 }
 
 type Stack []string
@@ -103,12 +100,12 @@ func (s *Stack) Pop() (string, bool) {
 	}
 }
 
-func (s *Stack) Top() (string, bool) {
+func (s *Stack) Top() string {
 	if s.IsEmpty() {
-		return "", false
+		return ""
 	} else {
 		index := len(*s) - 1
 		element := (*s)[index]
-		return element, true
+		return element
 	}
 }
