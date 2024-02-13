@@ -1,4 +1,4 @@
-package main
+package stack
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -52,5 +52,17 @@ func Test(t *testing.T) {
 		s := "- (3 + (4 + 5))"
 		res := calculate(s)
 		assert.Equal(t, -12, res)
+	})
+
+	t.Run("9", func(t *testing.T) {
+		s := "(7)-(0)+(4)"
+		res := calculate(s)
+		assert.Equal(t, 11, res)
+	})
+
+	t.Run("10", func(t *testing.T) {
+		s := "(6)-(8)-(7)+(1+(6))"
+		res := calculate(s)
+		assert.Equal(t, -2, res)
 	})
 }
