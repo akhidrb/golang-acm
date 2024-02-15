@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func Test_TextJustification(t *testing.T) {
+func Test(t *testing.T) {
 	t.Run("1", func(t *testing.T) {
 		nums := []int{-1, 0, 1, 2, -1, -4}
 		res := threeSum(nums)
