@@ -18,6 +18,9 @@ var (
 )
 
 func letterCombinations(digits string) []string {
+	if len(digits) == 0 {
+		return []string{}
+	}
 	ans := make([]string, 0)
 	bt(digits, 0, []byte{}, &ans)
 	return ans
