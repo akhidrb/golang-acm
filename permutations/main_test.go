@@ -12,9 +12,12 @@ func Test(t *testing.T) {
 		nums := []int{1, 2, 3}
 		res := permute(nums)
 		exp := [][]int{{1, 2, 3}, {1, 3, 2}, {2, 1, 3}, {2, 3, 1}, {3, 1, 2}, {3, 2, 1}}
+		fmt.Println(exp)
+		fmt.Println(res)
 		if ok := checkArr(exp, res); !ok {
-			fmt.Println(exp)
-			fmt.Println(res)
+			assert.True(t, ok)
+		}
+		if ok := checkArr(res, exp); !ok {
 			assert.True(t, ok)
 		}
 	})
