@@ -1,22 +1,18 @@
 package main
 
 func lengthOfLongestSubstring(s string) int {
-	m := make(map[rune]int)
+	lastIndex := make([]int, 128)
 	i := 0
 	longest := 0
-	iter := 0
-	for i < len(s) {
-		if val, ok := m[rune(s[i])]; ok {
-			i = val + 1
-			m = make(map[rune]int)
-			iter = 0
+	for j := 0; j < len(s); j++ {
+		curr := s[j]
+		if lastIndex[curr] > i {
+			i = lastIndex[curr]
 		}
-		m[rune(s[i])] = i
-		iter++
-		i++
-		if iter > longest {
-			longest = iter
+		if j-i+1 > longest {
+			longest = j - i + 1
 		}
+		lastIndex[curr] = j + 1
 	}
 	return longest
 }
