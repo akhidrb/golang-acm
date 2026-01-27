@@ -1,46 +1,27 @@
 package main
 
-// [1,3], [6,9]
-// [2,5]
-// [1, 5], [6,9]
-
 func insert(intervals [][]int, newInterval []int) [][]int {
-	start, finish := -1, -1
-	low, high := newInterval[0], newInterval[1]
-	foundIntervals := make(map[int]bool)
-	for i, _ := range intervals {
-		if start == -1 && intervals[i][0] <= low && intervals[i][1] >= low {
-			if intervals[i][0] < low {
-				start = intervals[i][0]
-			} else {
-				start = low
-			}
-			if intervals[i][1] > high {
-				finish = intervals[i][1]
-			} else {
-				finish = high
-			}
-			foundIntervals[i] = true
-		}
-		if intervals[i][1] >= high && intervals[i][1] <= high {
-			foundIntervals[i] = true
-			if intervals[i][0] < low {
-				start = intervals[i][0]
-			}
-			if intervals[i][1] > high {
-				finish = intervals[i][1]
-			} else {
-				finish = high
-			}
-		}
+	n := len(intervals)
+	res := make([][]int, 0, n+1)
+	i := 0
+	for i < n && intervals[i][1] < newInterval[0] {
+		res = append(res, intervals[i])
+		i++
 	}
-	first := -1
-	for i, _ := range foundIntervals {
-		if first == -1 {
-			first = i
+
+	for i < n && intervals[i][0] <= newInterval[1] {
+		if intervals[i][0] < newInterval[0] {
+			newInterval[0] = intervals[i][0]
 		}
-		intervals = append(intervals[:i], intervals[i+1:]...)
+		if intervals[i][1] > newInterval[1] {
+			newInterval[1] = intervals[i][1]
+		}
+		i++
 	}
-	intervals = append(intervals[:first], append([][]int{{start, finish}}, intervals[first:]...)...)
-	return intervals
+	res = append(res, newInterval)
+	for i < n {
+		res = append(res, intervals[i])
+		i++
+	}
+	return res
 }
