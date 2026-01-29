@@ -1,0 +1,32 @@
+package main
+
+func rotate(nums []int, k int) {
+	mirror := make([]int, len(nums))
+	for i := 0; i < len(nums); i++ {
+		index := (i + k) % len(nums)
+		mirror[index] = nums[i]
+	}
+	copy(nums, mirror)
+}
+
+func rotate2(nums []int, k int) {
+	if len(nums) == 1 || len(nums)-k == 0 {
+		return
+	}
+	if k > len(nums) {
+		k = k % len(nums)
+	}
+	temp := make([]int, len(nums))
+	l, r := 0, len(nums)-k
+	for l < len(nums)-k || r < len(nums) {
+		if r < len(nums) {
+			temp[l] = nums[r]
+			r++
+		}
+		if l < len(nums)-k {
+			temp[l+k] = nums[l]
+		}
+		l++
+	}
+	copy(nums, temp)
+}
