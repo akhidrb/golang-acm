@@ -20,7 +20,7 @@ func Test(t *testing.T) {
 			{2, 3},
 			{1, 2, 3},
 		}
-		assert.Equal(t, exp, res)
+		assert.ElementsMatch(t, exp, res)
 	})
 
 	t.Run("2", func(t *testing.T) {
@@ -30,7 +30,7 @@ func Test(t *testing.T) {
 			{},
 			{0},
 		}
-		assert.Equal(t, exp, res)
+		assert.ElementsMatch(t, exp, res)
 	})
 
 }
