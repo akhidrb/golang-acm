@@ -1,15 +1,17 @@
 package main
 
-import "fmt"
-
 func findPeakElement(nums []int) int {
-	INF := -1 * ((1 << 31) + 1)
-	nums = append([]int{INF}, nums...)
-	nums = append(nums, INF)
-	fmt.Println(INF)
-	i := 1
-	for nums[i] <= nums[i-1] || nums[i] <= nums[i+1] {
-		i++
+	start, end := 0, len(nums)-1
+
+	for start < end {
+		mid := start + (end-start)/2
+
+		if nums[mid] < nums[mid+1] {
+			start = mid + 1
+		} else {
+			end = mid
+		}
 	}
-	return i - 1
+
+	return start
 }

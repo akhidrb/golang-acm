@@ -16,7 +16,8 @@ func Test(t *testing.T) {
 	t.Run("2", func(t *testing.T) {
 		nums := []int{1, 2, 1, 3, 5, 6, 4}
 		res := findPeakElement(nums)
-		assert.Equal(t, 1, res)
+		exp := res == 1 || res == 5
+		assert.True(t, exp)
 	})
 
 	t.Run("3", func(t *testing.T) {
