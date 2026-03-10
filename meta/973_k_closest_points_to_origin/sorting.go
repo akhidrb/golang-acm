@@ -12,9 +12,11 @@ func qs(points [][]int, k, left, right int) {
 	p := partition(points, left, right)
 	if p == k {
 		return
+	} else if p < k-1 {
+		qs(points, k, p+1, right)
+	} else {
+		qs(points, k, left, p-1)
 	}
-	qs(points, k, left, p-1)
-	qs(points, k, p+1, right)
 }
 
 func partition(points [][]int, left, right int) int {
