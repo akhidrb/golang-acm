@@ -1,0 +1,28 @@
+package main
+
+import (
+	"github.com/stretchr/testify/assert"
+	"testing"
+)
+
+func Test(t *testing.T) {
+
+	t.Run("1", func(t *testing.T) {
+		s := "(()"
+		res := longestValidParentheses(s)
+		assert.Equal(t, 2, res)
+	})
+
+	t.Run("2", func(t *testing.T) {
+		s := ")()())"
+		res := longestValidParentheses(s)
+		assert.Equal(t, 4, res)
+	})
+
+	t.Run("3", func(t *testing.T) {
+		s := ""
+		res := longestValidParentheses(s)
+		assert.Equal(t, 0, res)
+	})
+
+}
