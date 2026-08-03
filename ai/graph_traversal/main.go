@@ -14,6 +14,27 @@ func (g *Graph) AddEdge(from, to int) {
 	g.edges[from] = append(g.edges[from], to)
 }
 
+func (g *Graph) ReachesEnd(start, last int) bool {
+	visited := make(map[int]bool)
+	queue := []int{start}
+
+	for len(queue) > 0 {
+		node := queue[0]
+		queue = queue[1:]
+
+		for _, neighbor := range g.edges[node] {
+			if neighbor == last {
+				return true
+			}
+			if !visited[neighbor] {
+				visited[neighbor] = true
+				queue = append(queue, neighbor)
+			}
+		}
+	}
+	return false
+}
+
 func (g *Graph) HasCycle() bool {
 	visited := make(map[int]bool)
 	visiting := make(map[int]bool)
