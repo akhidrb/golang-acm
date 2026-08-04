@@ -1,10 +1,5 @@
 package main
 
-import (
-	"cmp"
-	"slices"
-)
-
 /* Example:
 flagged_vendors = ["acme", "globex", "acme", "initech", "acme", "globex", "umbrella"]
 k = 2
@@ -12,27 +7,23 @@ k = 2
 Output: ["acme", "globex"]
 */
 
-type VendorFlag struct {
-	vendor string
-	freq   int
-}
-
 func flaggedVendors(vendors []string, k int) []string {
-	top_k := make([]string, 0)
+
 	counter := make(map[string]int)
+	max_freq := 0
 	for _, vendor := range vendors {
 		counter[vendor] += 1
+		if counter[vendor] > max_freq {
+			max_freq = counter[vendor]
+		}
 	}
-	flags := make([]VendorFlag, 0)
-	for key, value := range counter {
-		flags = append(flags, VendorFlag{vendor: key, freq: value})
+	top_k := make([][]string, max_freq+1)
+	for vendor, freq := range counter {
+		top_k[freq] = append(top_k[freq], vendor)
 	}
-	slices.SortFunc(flags, func(a, b VendorFlag) int {
-		return cmp.Compare(b.freq, a.freq)
-	})
-
-	for i := 0; i < k; i++ {
-		top_k = append(top_k, flags[i].vendor)
+	result := make([]string, 0)
+	for i := len(top_k) - 1; i >= 0 && len(result) < k; i-- {
+		result = append(result, top_k[i]...)
 	}
-	return top_k
+	return result
 }
